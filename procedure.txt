@@ -1,0 +1,68 @@
+// user registeration
+
+
+DELIMITER ;;
+CREATE PROCEDURE `create_registeration` (
+in p_name varchar(100),
+in p_mobile int(20),
+in p_pass varchar(200),
+in p_society_id int(11)
+)
+BEGIN
+declare r_count int(11);
+select count(1) into r_count from user where mobile=p_mobile;
+if(r_count = 0) THEN
+insert into user(name,mobile,pass,socities_id) values(p_name,p_mobile,p_pass,p_society_id);
+select 'true' as status, 'User registeration done' as msg;
+else
+select 'false' as status, 'User registeration done' as msg;
+end if;
+END;;
+DELIMITER ;
+
+
+//user login
+
+DELIMITER ;;
+CREATE PROCEDURE `check_login` (
+in p_mobile int(20),
+in p_pass varchar(200)
+)
+BEGIN
+declare r_count int(11);
+declare is_valid int(11) DEFAULT 0;
+select count(1) into r_count from user where mobile=p_mobile;
+if(r_count = 0) THEN
+select 'failed' as status, 'User does not exist' as msg;
+else
+select count(1) into is_valid from user where mobile=p_mobile and pass=p_pass;
+if (is_valid = 0) THEN
+select 'failed' as status, 'Incorrect password' as msg;
+else 
+select *,'success' as status, 'user exist' as msg from tbl_user where mobile=p_mobile;
+end if;
+end if;
+END;;
+DELIMITER ;
+
+
+
+drop PROCEDURE create_registeration;
+DELIMITER ;;
+CREATE PROCEDURE `create_registeration` (
+in p_name varchar(100),
+in p_mobile int(20),
+in p_pass varchar(200),
+in p_society_id int(11)
+)
+BEGIN
+declare r_count int(11);
+select count(1) into r_count from user where mobile=p_mobile;
+if(r_count = 0) THEN
+insert into user(name,mobile,pass,socities_id) values(p_name,p_mobile,p_pass,p_society_id);
+select 'true' as status, 'User registeration done' as msg;
+else
+select 'false' as status, 'User registeration done' as msg;
+end if;
+END;;
+DELIMITER ;
